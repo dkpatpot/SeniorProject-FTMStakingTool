@@ -1,4 +1,9 @@
 import React from "react";
+import {
+  BrowserRouter,
+  Route,
+  Link
+} from "react-router-dom";
 
 function Header() {
   return (
@@ -16,9 +21,7 @@ function Header() {
 
           <ul className="nav d-flex justify-content-center py-3 pt-4">
             <li>
-              <a href="https://fantom.foundation/" className="nav-link px-2 text-white">
-                Home
-              </a>
+              <Link to="/" className="nav-link px-2 text-white"> Home </Link>
             </li>
             <li>
               <a href="https://fantom.foundation/" className="nav-link px-2 text-white">
@@ -39,6 +42,9 @@ function Header() {
               <a href="https://fantom.foundation/" className="nav-link px-2 text-white">
                 About
               </a>
+            </li>
+            <li>
+            <Link to="/TestMultiPage" className="nav-link px-2 text-white"> TestMultiPage </Link>
             </li>
           </ul>
         <button type="button" className="btn btn-warning mt-2">Connect to wallet</button>
