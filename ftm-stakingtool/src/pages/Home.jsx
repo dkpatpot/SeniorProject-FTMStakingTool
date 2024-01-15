@@ -1,5 +1,5 @@
 import React from "react";
-import Price from "../components/Price";
+import Price from "../components/Price"
 import {
     BrowserRouter,
     Route,

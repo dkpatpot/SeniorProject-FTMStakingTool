@@ -37,7 +37,12 @@ export default function TransactionTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const rows = [];
   props.transactionList.forEach((transaction)=>{
-    rows.push({transactionHash:transaction.hash,method:transaction.input,from:transaction.from_address,to: transaction.to_address,value:transaction.value/wei+' FTM'});
+    if (transaction.decoded_call === null){
+      rows.push({transactionHash:transaction.hash,method:"transfer",from:transaction.from_address,to: transaction.to_address,value:transaction.value/wei+' FTM'});
+    }else{
+      rows.push({transactionHash:transaction.hash,method:transaction.decoded_call.label,from:transaction.from_address,to: transaction.to_address,value:transaction.value/wei+' FTM'});
+    }
+    
   });
 
   const handleChangePage = (event, newPage) => {

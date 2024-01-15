@@ -16,23 +16,6 @@ function SearchBar(props) {
       const response = await axios.get("http://localhost:4000/txs", {
         params: { address: address },
       });
-      response.data.response.result.forEach((transaction) => {
-        if (transaction.input.slice(0, 10)==="0x"){
-          transaction.input = "Transfer"
-        }else if(transaction.input.slice(0, 10)==="0x9fa6dd35"){
-          transaction.input = "Delegate"
-        }else if(transaction.input.slice(0, 10)==="0x4f864df4"){
-          transaction.input = "Undelegate"
-        }else if(transaction.input.slice(0, 10)==="0xde67f215"){
-          transaction.input = "Lock Stake"
-        }else if(transaction.input.slice(0, 10)==="0x1d3ac42c"){
-          transaction.input = "Unlock Stake"
-        }else if(transaction.input.slice(0, 10)==="0x0962ef79"){
-          transaction.input = "Claim Reward"
-        }else if(transaction.input.slice(0, 10)==="0x08c36874"){
-          transaction.input = "Restake Rewards"
-        }
-      });
       props.callBackTransaction(response.data.response.result);
       console.log(response.data.response.result);
     } catch (error) {
