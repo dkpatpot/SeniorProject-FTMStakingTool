@@ -1,4 +1,5 @@
 import React from "react";
+import Price from "../components/Price";
 import {
     BrowserRouter,
     Route,
@@ -11,6 +12,7 @@ const Home = () => {
     return (
         <div>
             <Header />
+            <Price />
             <Content />
         </div>
     );

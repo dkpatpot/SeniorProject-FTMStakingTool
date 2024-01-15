@@ -8,9 +8,10 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
+const wei = 1000000000000000000;
 const columns = [
   { id: 'transactionHash', label: 'Transaction Hash', minWidth: 150 },
-  { id: 'block', label: 'Block', minWidth: 70 },
+  { id: 'method', label: 'Method', minWidth: 70 },
   {
     id: 'from',
     label: 'From',
@@ -36,7 +37,7 @@ export default function TransactionTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const rows = [];
   props.transactionList.forEach((transaction)=>{
-    rows.push({transactionHash:transaction.hash,block:transaction.block_number,from:transaction.from_address,to: transaction.to_address,value:transaction.value});
+    rows.push({transactionHash:transaction.hash,method:transaction.input,from:transaction.from_address,to: transaction.to_address,value:transaction.value/wei+' FTM'});
   });
 
   const handleChangePage = (event, newPage) => {
