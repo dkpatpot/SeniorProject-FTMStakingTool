@@ -15,13 +15,13 @@ function Price() {
       console.error("Error fetching data:", error);
     }
   }
-  useEffect(() => {
-    fetchPrice();
-    const interval = setInterval(() => {
-        fetchPrice();
-      }, 150000);
-      return () => clearInterval(interval);
-    }, []);
+  // useEffect(() => {
+  //   fetchPrice();
+  //   const interval = setInterval(() => {
+  //       fetchPrice();
+  //     }, 150000);
+  //     return () => clearInterval(interval);
+  //   }, []);
   return (
     <div>
       <div className="container my-5">

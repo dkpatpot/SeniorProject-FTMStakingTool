@@ -44,7 +44,7 @@ function Header() {
               </a>
             </li>
             <li>
-            <Link to="/TestMultiPage" className="nav-link px-2 text-white"> TestMultiPage </Link>
+            <Link to="/StakingCalculator" className="nav-link px-2 text-white"> StakingCalculator </Link>
             </li>
           </ul>
         <button type="button" className="btn btn-warning mt-2">Connect to wallet</button>
