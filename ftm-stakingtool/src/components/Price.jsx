@@ -7,21 +7,21 @@ function Price() {
   }
   async function fetchPrice() {
     try {
-      const response = await axios.get("http://localhost:4000/ftmprice");
-      const price = response.data.response.usdPrice;
-      console.log(response);
+      const response = await axios.get("http://localhost:4000/getcurrentprice");
+      const price = response.data.market_data.current_price.usd;
+      console.log(response.data.market_data.current_price.usd);
       setFtmprice(formatValue(price));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
-  // useEffect(() => {
-  //   fetchPrice();
-  //   const interval = setInterval(() => {
-  //       fetchPrice();
-  //     }, 150000);
-  //     return () => clearInterval(interval);
-  //   }, []);
+  useEffect(() => {
+    fetchPrice();
+    const interval = setInterval(() => {
+        fetchPrice();
+      }, 500000);
+      return () => clearInterval(interval);
+    }, []);
   return (
     <div>
       <div className="container my-5">

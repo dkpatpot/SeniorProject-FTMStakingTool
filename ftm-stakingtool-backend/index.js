@@ -2,7 +2,7 @@ import express from "express";
 import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 import cors from "cors";
-import Web3 from "web3";
+import axios from "axios";
 const app = express();
 const port = 4000;
 app.use(cors());
@@ -18,7 +18,52 @@ app.get("/txs", async (req, res) => {
       });
     return res.status(200).json({ response });
   } catch (error) {
-    return res.status(400).json();
+    rres.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/tracetsx", async (req, res) => {
+  const url = "https://rpcapi-tracing.fantom.network";
+
+  const requestData = {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "trace_transaction",
+    params: [
+      "0xf835000f4e15a70dc717c87be64ac4c5a9fde6b6140bcd31ce0f3157b63cc503",
+    ],
+  };
+
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await axios.post(url, requestData, { headers });
+    return res.status(200).json({ response });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get("/gethistoricalmarketdata", async (req, res) => {
+  const date = '22-01-2022';
+  const params = {date:date};
+  const baseUrl = 'https://api.coingecko.com/api/v3/coins/fantom/history';
+  try { 
+    const response = await axios.get(baseUrl, {params});
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get("/getcurrentprice", async (req, res) => {
+  const baseUrl = 'https://api.coingecko.com/api/v3/coins/fantom';
+  try { 
+    const response = await axios.get(baseUrl);
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 app.get("/ftmprice", async (req, res) => {
@@ -29,29 +74,7 @@ app.get("/ftmprice", async (req, res) => {
     });
     return res.status(200).json({ response });
   } catch (error) {
-    return res.status(400).json();
-  }
-});
-app.get("/tracetransaction", async (req, res) => {
-  try {
-    const web3 = new Web3("https://rpc.ankr.com/fantom/");
-    web3.extend({
-      methods: [
-        {
-          name: "parityTraceTx",
-          call: "trace_transaction",
-          params: 1,
-          inputFormatter: [null],
-        },
-      ],
-    });
-    const response = await web3.parityTraceTx(
-      "0xf835000f4e15a70dc717c87be64ac4c5a9fde6b6140bcd31ce0f3157b63cc503"
-    );
-    console.log(response);
-    return res.status(200).json({ response });
-  } catch (error) {
-    return res.status(400).json();
+    res.status(500).json({ error: error.message });
   }
 });
 Moralis.start({
