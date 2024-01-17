@@ -14,7 +14,7 @@ function Content() {
   async function traceTxs() {
     try {
       const response = await axios.get(
-        "http://localhost:4000/tracetsx"
+        "http://localhost:4000/tracetransaction"
       );
       console.log(response.data.result);
     } catch (error) {
@@ -26,7 +26,7 @@ function Content() {
       const response = await axios.get(
         "http://localhost:4000/gethistoricalmarketdata"
       );
-      console.log(response);
+      console.log(response.data.market_data.current_price.usd);
     } catch (error) {
       console.error("Error get historical data:", error);
     }

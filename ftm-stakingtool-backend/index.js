@@ -7,7 +7,7 @@ const app = express();
 const port = 4000;
 app.use(cors());
 const chain = EvmChain.FANTOM;
-app.get("/txs", async (req, res) => {
+app.get("/transaction", async (req, res) => {
   try {
     const address = req.query.address;
     console.log(address);
@@ -16,13 +16,13 @@ app.get("/txs", async (req, res) => {
         address,
         chain,
       });
-    return res.status(200).json({ response });
+    res.status(200).json({ response });
   } catch (error) {
-    rres.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
-app.get("/tracetsx", async (req, res) => {
+app.get("/tracetransaction", async (req, res) => {
   const url = "https://rpcapi-tracing.fantom.network";
 
   const requestData = {
@@ -41,7 +41,7 @@ app.get("/tracetsx", async (req, res) => {
 
   try {
     const response = await axios.post(url, requestData, { headers });
-    return res.status(200).json({ response });
+    res.status(200).json(response.data); // Accessing response.data to get the actual data
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -72,7 +72,7 @@ app.get("/ftmprice", async (req, res) => {
       address: "0x4E15361FD6b4BB609Fa63C81A2be19d873717870",
       chain: "0x1",
     });
-    return res.status(200).json({ response });
+    res.status(200).json({ response });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -13,7 +13,7 @@ function SearchBar(props) {
 
   async function fetchTransaction() {
     try {
-      const response = await axios.get("http://localhost:4000/txs", {
+      const response = await axios.get("http://localhost:4000/transaction", {
         params: { address: address },
       });
       props.callBackTransaction(response.data.response.result);
