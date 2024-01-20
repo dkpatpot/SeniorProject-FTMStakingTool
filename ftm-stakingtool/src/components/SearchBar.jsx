@@ -14,7 +14,7 @@ function SearchBar(props) {
   async function fetchTransaction() {
     try {
       const response = await axios.get("http://localhost:4000/transaction", {
-        params: { address: address },
+        params: { address: address }
       });
       props.callBackTransaction(response.data.response.result);
       console.log(response.data.response.result);
@@ -22,7 +22,6 @@ function SearchBar(props) {
       console.error("Error fetching transactions:", error);
     }
   }
-
 
   return (
     <div className="input-group mb-3">

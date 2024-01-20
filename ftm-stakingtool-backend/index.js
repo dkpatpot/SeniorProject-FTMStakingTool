@@ -30,7 +30,35 @@ app.get("/tracetransaction", async (req, res) => {
     id: 1,
     method: "trace_transaction",
     params: [
-      "0xf835000f4e15a70dc717c87be64ac4c5a9fde6b6140bcd31ce0f3157b63cc503",
+      "0x0b29b840893456b339eca2dd2c2c12b1ed9c4aaf40fc0d0fcab2def68ae9cd98",
+    ],
+  };
+
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await axios.post(url, requestData, { headers });
+    res.status(200).json(response.data); // Accessing response.data to get the actual data
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get("/getlogs", async (req, res) => {
+  const url = "https://rpcapi.fantom.network";
+
+  const requestData = {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "eth_getLogs",
+    params: [
+      {
+        address: ["0xfc00face00000000000000000000000000000000"],
+        blockHash:
+          "0x0003f5490000019467dd01e4f9159f7160bf442a54191deea2a3f64b305ac33f",
+      },
     ],
   };
 
@@ -47,19 +75,19 @@ app.get("/tracetransaction", async (req, res) => {
   }
 });
 app.get("/gethistoricalmarketdata", async (req, res) => {
-  const date = '22-01-2022';
-  const params = {date:date};
-  const baseUrl = 'https://api.coingecko.com/api/v3/coins/fantom/history';
-  try { 
-    const response = await axios.get(baseUrl, {params});
+  const date = req.query.date;
+  const params = { date: date };
+  const baseUrl = "https://api.coingecko.com/api/v3/coins/fantom/history";
+  try {
+    const response = await axios.get(baseUrl, { params });
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 app.get("/getcurrentprice", async (req, res) => {
-  const baseUrl = 'https://api.coingecko.com/api/v3/coins/fantom';
-  try { 
+  const baseUrl = "https://api.coingecko.com/api/v3/coins/fantom";
+  try {
     const response = await axios.get(baseUrl);
     res.json(response.data);
   } catch (error) {
