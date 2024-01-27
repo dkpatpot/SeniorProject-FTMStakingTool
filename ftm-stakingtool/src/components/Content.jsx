@@ -11,15 +11,15 @@ function Content() {
   function getTransaction() {
     console.log(transactionList);
   }
-
-  async function traceTxs() {
+  async function traceTxs(transactionHash) {
     try {
       const response = await axios.get(
-        "http://localhost:4000/tracetransaction"
+        "http://localhost:4000/tracetransaction", {
+          params: { transactionHash: transactionHash }
+        }
       );
-      // const lastIndex = response.data.result.length-1;
-      // console.log(response.data.result[lastIndex]);
       console.log(response.data.result);
+      return response.data.result;
     } catch (error) {
       console.error("Error trace transaction data:", error);
     }
@@ -28,7 +28,6 @@ function Content() {
     try {
       const response = await axios.get("http://localhost:4000/getlogs");
       console.log(response.data.result);
-      // console.log(response.data.result[0]);
     } catch (error) {
       console.error("Error trace transaction data:", error);
     }
@@ -40,7 +39,6 @@ function Content() {
           params: { date: date }
         }
       );
-      console.log(response.data.market_data.current_price.usd);
       return response.data.market_data.current_price.usd;
       
     } catch (error) {
@@ -61,7 +59,7 @@ function Content() {
         >
           Check transaction list
         </button>
-        <button className="btn btn-warning" type="button" onClick={traceTxs}>
+        <button className="btn btn-warning" type="button" onClick={() => traceTxs("0xc255a021e2bb53508e42d01cdf312aff6d9fb42de4231ad195ec1ecc7f9bcc05")}>
           Trace transaction
         </button>
         <button
@@ -75,7 +73,7 @@ function Content() {
           Get transaction logs
         </button>
         <TransactionTable transactionList={transactionList} />
-        <Tax transactionList={transactionList} getHistoricalPrice={getHistoricalPrice}/>
+        <Tax transactionList={transactionList} getHistoricalPrice={getHistoricalPrice} traceTxs={traceTxs}/>
       </div>
     </div>
   );

@@ -24,13 +24,13 @@ app.get("/transaction", async (req, res) => {
 
 app.get("/tracetransaction", async (req, res) => {
   const url = "https://rpcapi-tracing.fantom.network";
-
+  let transactionHash = req.query.transactionHash;
   const requestData = {
     jsonrpc: "2.0",
     id: 1,
     method: "trace_transaction",
     params: [
-      "0x0b29b840893456b339eca2dd2c2c12b1ed9c4aaf40fc0d0fcab2def68ae9cd98",
+      transactionHash,
     ],
   };
 
@@ -57,7 +57,7 @@ app.get("/getlogs", async (req, res) => {
       {
         address: ["0xfc00face00000000000000000000000000000000"],
         blockHash:
-          "0x0003f5490000019467dd01e4f9159f7160bf442a54191deea2a3f64b305ac33f",
+          "0x0003f5490000083bdab160615b4e64b48d898f2ba9bd202c20e25d9f83fd5df0",
       },
     ],
   };
@@ -69,7 +69,7 @@ app.get("/getlogs", async (req, res) => {
 
   try {
     const response = await axios.post(url, requestData, { headers });
-    res.status(200).json(response.data); // Accessing response.data to get the actual data
+    res.status(200).json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
