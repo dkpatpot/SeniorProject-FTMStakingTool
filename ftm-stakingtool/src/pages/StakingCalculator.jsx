@@ -8,6 +8,10 @@ import Header from "../components/Header";
 // import Box from '@mui/material/Box';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { DateTimePicker } from '@mui/x-date-pickers';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 function StakingCalulator() {
     return (
@@ -35,14 +39,16 @@ function StakingCalulator() {
                     />
                 </div>
                 <div>
-                    <DateTimePicker
-                        label="With Time Clock"
-                        viewRenderers={{
-                            hours: renderTimeViewClock,
-                            minutes: renderTimeViewClock,
-                            seconds: renderTimeViewClock,
-                        }}
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            label="With Time Clock"
+                            viewRenderers={{
+                                hours: renderTimeViewClock,
+                                minutes: renderTimeViewClock,
+                                seconds: renderTimeViewClock,
+                            }}
+                        />
+                    </LocalizationProvider>
                 </div>
             </Box>
         </div>

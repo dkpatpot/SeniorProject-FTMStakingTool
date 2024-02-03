@@ -22,43 +22,43 @@ function Tax(props) {
     props.transactionList.forEach(async (transaction) => {
       if (transaction.decoded_call === null) {
       }
-      // else if(transaction.decoded_call.label === "delegate"){
-      //     let ftmValue = transaction.value/wei;
-      //     let historicalPrice = await props.getHistoricalPrice(formatDate(transaction.block_timestamp));
-      //     setTotalFtmStake(totalFtmStake+=ftmValue);
-      //     let totalPrice = historicalPrice*ftmValue;
-      //     setTotalStakePrice(totalStakePrice+=totalPrice);}
-      // else if (transaction.decoded_call.label === "claimRewards") {
-      //   let traceTransaction = await props.traceTxs(transaction.hash);
-      //   let arrayLength = traceTransaction.length - 1;
-      //   let claimRewards = traceTransaction[arrayLength].action.value;
-      //   let historicalPrice = await props.getHistoricalPrice(
-      //     formatDate(transaction.block_timestamp)
-      //   );
-      //   setTotalClaimReward(
-      //     (totalClaimReward += parseInt(claimRewards, 16) / wei)
-      //   );
-      //   setTotalClaimRewardPrice(
-      //     (totalClaimRewardPrice +=
-      //       (historicalPrice * parseInt(claimRewards, 16)) / wei)
-      //   );
-      // }
-      // else if(transaction.decoded_call.label === "withdraw"){
-      //   let traceTransaction = await props.traceTxs(transaction.hash);
-      //   let arrayLength = traceTransaction.length - 1;
-      //   let ftmWithdraw = traceTransaction[arrayLength].action.value;
-      //   setTotalTokenWithdraw(totalTokenWithdraw+= parseInt(ftmWithdraw, 16) / wei);
-      //   const response = await axios.get("http://localhost:4000/getcurrentprice");
-      //   setFtmPrice(response.data.market_data.current_price.usd);
-      //   setTotalTokenWithdrawPrice(totalTokenWithdrawPrice+=(ftmPrice*parseInt(ftmWithdraw, 16) / wei));
-      // }
+      else if(transaction.decoded_call.label === "delegate"){
+          let ftmValue = transaction.value/wei;
+          let historicalPrice = await props.getHistoricalPrice(formatDate(transaction.block_timestamp));
+          setTotalFtmStake(totalFtmStake+=ftmValue);
+          let totalPrice = historicalPrice*ftmValue;
+          setTotalStakePrice(totalStakePrice+=totalPrice);}
+      else if (transaction.decoded_call.label === "claimRewards") {
+        let traceTransaction = await props.traceTxs(transaction.hash);
+        let arrayLength = traceTransaction.length - 1;
+        let claimRewards = traceTransaction[arrayLength].action.value;
+        let historicalPrice = await props.getHistoricalPrice(
+          formatDate(transaction.block_timestamp)
+        );
+        setTotalClaimReward(
+          (totalClaimReward += parseInt(claimRewards, 16) / wei)
+        );
+        setTotalClaimRewardPrice(
+          (totalClaimRewardPrice +=
+            (historicalPrice * parseInt(claimRewards, 16)) / wei)
+        );
+      }
+      else if(transaction.decoded_call.label === "withdraw"){
+        let traceTransaction = await props.traceTxs(transaction.hash);
+        let arrayLength = traceTransaction.length - 1;
+        let ftmWithdraw = traceTransaction[arrayLength].action.value;
+        setTotalTokenWithdraw(totalTokenWithdraw+= parseInt(ftmWithdraw, 16) / wei);
+        const response = await axios.get("http://localhost:4000/getcurrentprice");
+        setFtmPrice(response.data.market_data.current_price.usd);
+        setTotalTokenWithdrawPrice(totalTokenWithdrawPrice+=(ftmPrice*parseInt(ftmWithdraw, 16) / wei));
+      }
     });
-    // console.log(totalTokenWithdraw);
-    // console.log(totalClaimReward);
-    // console.log(totalClaimRewardPrice);
-    // console.log(totalStakePrice);
-    // console.log(totalFtmStake);
-    // console.log(totalTokenWithdrawPrice);
+    console.log(totalTokenWithdraw);
+    console.log(totalClaimReward);
+    console.log(totalClaimRewardPrice);
+    console.log(totalStakePrice);
+    console.log(totalFtmStake);
+    console.log(totalTokenWithdrawPrice);
     
   }
   return (

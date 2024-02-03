@@ -46,6 +46,9 @@ function Header() {
             <li>
             <Link to="/StakingCalculator" className="nav-link px-2 text-white"> StakingCalculator </Link>
             </li>
+            <li>
+            <Link to="/OptimalStaking" className="nav-link px-2 text-white"> OptimalStaking </Link>
+            </li>
           </ul>
         <button type="button" className="btn btn-warning mt-2">Connect to wallet</button>
         </div>
