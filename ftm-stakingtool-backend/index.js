@@ -3,6 +3,8 @@ import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 import cors from "cors";
 import axios from "axios";
+import fs from "fs";
+import csv from "csv-parser";
 const app = express();
 const port = 4000;
 app.use(cors());
@@ -29,9 +31,7 @@ app.get("/tracetransaction", async (req, res) => {
     jsonrpc: "2.0",
     id: 1,
     method: "trace_transaction",
-    params: [
-      transactionHash,
-    ],
+    params: [transactionHash],
   };
 
   const headers = {
@@ -104,6 +104,20 @@ app.get("/ftmprice", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+app.get("/readHistoricalCSVFile", (req, res) => {
+  let results = [];
+  fs.createReadStream("./data/ftmprice.csv")
+    .pipe(
+      csv({
+        headers: false,
+      })
+    )
+    .on("data", (data) => results.push(data))
+    .on("end", () => {
+      console.log(results);
+      res.send(results);
+    });
 });
 Moralis.start({
   apiKey:

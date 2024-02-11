@@ -21,7 +21,7 @@ function Price() {
         fetchPrice();
       }, 500000);
       return () => clearInterval(interval);
-    }, []);
+    }, );
   return (
     <div>
       <div className="container my-5">
