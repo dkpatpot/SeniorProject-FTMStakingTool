@@ -59,7 +59,7 @@ function Content() {
         >
           Check transaction list
         </button>
-        <button className="btn btn-warning" type="button" onClick={() => traceTxs("0xc255a021e2bb53508e42d01cdf312aff6d9fb42de4231ad195ec1ecc7f9bcc05")}>
+        <button className="btn btn-warning" type="button" onClick={() => traceTxs("0x3a08c4c5bed20cc07c56edbf9434e6d9ba1cdda03e8886817290ed0427fb2d4f")}>
           Trace transaction
         </button>
         <button

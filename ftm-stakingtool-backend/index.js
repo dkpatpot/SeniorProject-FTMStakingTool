@@ -57,7 +57,7 @@ app.get("/getlogs", async (req, res) => {
       {
         address: ["0xfc00face00000000000000000000000000000000"],
         blockHash:
-          "0x0003f5490000083bdab160615b4e64b48d898f2ba9bd202c20e25d9f83fd5df0",
+          "0x00040e18000010419606150ff9a90ad727b4d90a611c231fdfc340d19401f734",
       },
     ],
   };
