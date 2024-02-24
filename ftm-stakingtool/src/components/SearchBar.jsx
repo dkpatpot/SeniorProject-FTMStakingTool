@@ -8,7 +8,7 @@ function SearchBar(props) {
 
   function addressChange(event) {
     setAddress(event.target.value);
-    console.log(event.target.value);
+    console.log(address);
   }
 
   async function fetchTransaction() {
@@ -19,6 +19,7 @@ function SearchBar(props) {
       props.callBackTransaction(response.data.response.result);
       console.log(response.data.response.result);
     } catch (error) {
+      props.callBackTransaction([]);
       console.error("Error fetching transactions:", error);
     }
   }

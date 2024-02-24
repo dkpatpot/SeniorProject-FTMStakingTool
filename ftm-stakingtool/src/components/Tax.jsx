@@ -13,6 +13,9 @@ function Tax(props) {
   let [totalClaimRewardPrice, setTotalClaimRewardPrice] = useState(0);
   let [totalTokenWithdraw, setTotalTokenWithdraw] = useState(0);
   let [totalTokenWithdrawPrice, setTotalTokenWithdrawPrice] = useState(0);
+  let [totalRestake, setTotalRestake] = useState(0);
+  let [totalRestakePrice, setTotalRestakePrice] = useState(0);
+  let [isTaxCalculated, setIsTaxCalculated] = useState(false);
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getUTCDate().toString();
@@ -26,11 +29,15 @@ function Tax(props) {
     console.log(totalFtmStakePrice);
     console.log(totalClaimReward);
     console.log(totalClaimRewardPrice);
-      setTotalFtmStake(0);
-      setTotalFtmStakePrice(0);
-      setTotalClaimReward(0);
-      setTotalClaimRewardPrice(0);
-      setTotalTokenWithdraw(0);
+    setTotalFtmStake(0);
+    setTotalFtmStakePrice(0);
+    setTotalClaimReward(0);
+    setTotalClaimRewardPrice(0);
+    setTotalTokenWithdraw(0);
+    setTotalTokenWithdrawPrice(0);
+    setTotalRestake(0);
+    setTotalFtmStakePrice(0);
+    setIsTaxCalculated(false);
   }
   function queryDate(dateString) {
     let result;
@@ -71,43 +78,71 @@ function Tax(props) {
           historicalPrice * (parseInt(claimRewards, 16) / wei);
         setTotalClaimReward((totalClaimReward += claimRewardsFTM));
         setTotalClaimRewardPrice((totalClaimRewardPrice += claimRewardsPrice));
-      }
-      else if(transaction.decoded_call.label === "withdraw"){
+      } else if (transaction.decoded_call.label === "withdraw") {
         let currentDate = new Date().toJSON().slice(0, 10);
+        console.log(currentDate);
         let currentPrice = queryDate(formatDate(currentDate));
         let traceTransaction = await props.traceTxs(transaction.hash);
         let arrayLength = traceTransaction.length - 1;
         let ftmWithdraw = traceTransaction[arrayLength].action.value;
-        setTotalTokenWithdraw(totalTokenWithdraw+= parseInt(ftmWithdraw, 16) / wei);
+        setTotalTokenWithdraw(
+          (totalTokenWithdraw += parseInt(ftmWithdraw, 16) / wei)
+        );
         setFtmPrice(currentPrice);
-        setTotalTokenWithdrawPrice(totalTokenWithdrawPrice+=(ftmPrice*parseInt(ftmWithdraw, 16) / wei));
+        setTotalTokenWithdrawPrice(
+          (totalTokenWithdrawPrice +=
+            (ftmPrice * parseInt(ftmWithdraw, 16)) / wei)
+        );
+      } else if (transaction.decoded_call.label === "restakeRewards") {
+        let historicalPrice = queryDate(
+          formatDate(transaction.block_timestamp)
+        );
+        let result = await props.getTxsLogs(transaction.block_hash);
+        let restakePrice = result[0].data;
+        setTotalRestake((totalRestake += parseInt(restakePrice, 16) / wei));
+        setTotalRestakePrice(
+          (totalRestakePrice +=
+            (historicalPrice * parseInt(restakePrice, 16)) / wei)
+        );
+        console.log();
       }
+      setIsTaxCalculated(true);
     });
   }
   return (
     <div>
       <div className="px-4 my-5 text-center">
         <button
-          className="btn btn-warning"
+          className="btn btn-warning m-2"
           type="button"
           onClick={calculateTax}
         >
           Calculate Taxes
         </button>
-        <button className="btn btn-warning" type="button" onClick={clearMemory}>
-          clearMemory
+        <button
+          className="btn btn-warning m-2"
+          type="button"
+          onClick={clearMemory}
+        >
+          Clear Memory
         </button>
       </div>
-      <div className="container my-5">
-        <div className="p-5 text-center bg-body-tertiary rounded-3">
-          <h3>totalFtmStake {totalFtmStake} FTM</h3>
-          <h3>totalFtmStakePrice {totalFtmStakePrice} USD</h3>
-          <h3>totalClaimReward {totalClaimReward} FTM</h3>
-          <h3>totalClaimRewardPrice {totalClaimRewardPrice} USD</h3>
-          <h3>totalTokenWithdraw {totalTokenWithdraw} FTM</h3>
-          <h3>totalTokenWithdrawPrice {totalTokenWithdrawPrice} USD</h3>
+      {isTaxCalculated ? (
+        <div className="container my-5">
+          <div className="p-5 text-center bg-body-tertiary rounded-3">
+            <h3>totalFtmStake {totalFtmStake} FTM</h3>
+            <h3>totalFtmStakePrice {totalFtmStakePrice} USD</h3>
+            <h3>totalClaimReward {totalClaimReward} FTM</h3>
+            <h3>totalClaimRewardPrice {totalClaimRewardPrice} USD</h3>
+            <h3>totalTokenWithdraw {totalTokenWithdraw} FTM</h3>
+            <h3>totalTokenWithdrawPrice {totalTokenWithdrawPrice} USD</h3>
+            <h3>totalRestake {totalRestake} FTM</h3>
+            <h3>totalRestakePrice {totalRestakePrice} USD</h3>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }

@@ -48,7 +48,7 @@ app.get("/tracetransaction", async (req, res) => {
 });
 app.get("/getlogs", async (req, res) => {
   const url = "https://rpcapi.fantom.network";
-
+  const blockHash = req.query.blockHash;
   const requestData = {
     jsonrpc: "2.0",
     id: 1,
@@ -56,8 +56,7 @@ app.get("/getlogs", async (req, res) => {
     params: [
       {
         address: ["0xfc00face00000000000000000000000000000000"],
-        blockHash:
-          "0x00040e18000010419606150ff9a90ad727b4d90a611c231fdfc340d19401f734",
+        blockHash:blockHash,
       },
     ],
   };
@@ -115,7 +114,6 @@ app.get("/readHistoricalCSVFile", (req, res) => {
     )
     .on("data", (data) => results.push(data))
     .on("end", () => {
-      console.log(results);
       res.send(results);
     });
 });
