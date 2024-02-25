@@ -116,13 +116,13 @@ function OptimalStaking() {
     const providerOptions = ['Provider 1', 'Provider 2', 'Provider 3'];
 
     let [rows, setRows] = useState([]);
-
+    let [isRowAvalible,setIsRowAvalible] = useState(false);
     const testRows = [createData(1, 1, 10, 100, 1000)];
     // const [providerValue, setProviderValue] = React.useState(providerOptions[0]);
     // const [inputProviderValue, setInputProviderValue] = React.useState('');
     const [initialAmount, setInitialAmount] = useState(0);
     const [stakingPeriod, setStakingPeriod] = useState(0);
-
+    
     let rewardInterval = 7;
     let rewardPercentage = 6.1;
     let allStakingReward;
@@ -130,7 +130,11 @@ function OptimalStaking() {
     let restakeDays = [];
 
     let currentStakingReward = 0;
-
+    function checkRows(){
+        if (rows!=[]){
+            setIsRowAvalible(true);
+        }
+    }
     function changeInitialAmount(event) {
         setInitialAmount(event.target.value);
         console.log("initialAmount = " + event.target.value);
@@ -177,9 +181,8 @@ function OptimalStaking() {
                     console.log("Day " + day + " After plus allStakingReward = " + allStakingReward);
                     restakeDays.push(day);
                     currentStakingReward = 0;
-
-                    setRows()
                     rows.push(createData(tempNum, day, BRRewardTemp, restakeAmountTemp, allStakingReward));
+                    checkRows();
                     tempNum++;
                 }
             }
@@ -354,9 +357,9 @@ function OptimalStaking() {
                             </TableRow>
                             </TableHead>
                             <TableBody>
-                            {rows.map((row) => (
+                            {isRowAvalible ? rows.map((row) => (
                                 <Row key={row.number} row={row} />
-                            ))}
+                            )):<div></div>}
                             </TableBody>
                         </Table>
                     </TableContainer>
