@@ -25,7 +25,7 @@ function Price() {
   return (
     <div>
       <div className="container my-5">
-        <div className="p-5 text-center bg-body-tertiary rounded-3">
+        <div className="p-3 text-center bg-body-tertiary rounded-3">
           <h1 className="text-body-emphasis">FTM token price</h1>
           <h3>{ftmprice} USD</h3>
           <p className="lead">

@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  BrowserRouter,
-  Route,
   Link
 } from "react-router-dom";
 
@@ -25,18 +23,11 @@ function Header() {
             </li>
             <li>
               <a href="https://fantom.foundation/" className="nav-link px-2 text-white">
-                Features
+                Fantom
               </a>
             </li>
             <li>
-              <a href="https://fantom.foundation/" className="nav-link px-2 text-white">
-                Pricing
-              </a>
-            </li>
-            <li>
-              <a href="https://fantom.foundation/" className="nav-link px-2 text-white">
-                FAQs
-              </a>
+            <Link to="/pricing" className="nav-link px-2 text-white"> Pricing </Link>
             </li>
             <li>
               <a href="https://fantom.foundation/" className="nav-link px-2 text-white">
@@ -44,13 +35,13 @@ function Header() {
               </a>
             </li>
             <li>
-            <Link to="/StakingCalculator" className="nav-link px-2 text-white"> StakingCalculator </Link>
+            <Link to="/stakingcalculator" className="nav-link px-2 text-white"> TaxCalculator </Link>
             </li>
             <li>
-            <Link to="/OptimalStaking" className="nav-link px-2 text-white"> OptimalStaking </Link>
+            <Link to="/optimalstaking" className="nav-link px-2 text-white"> OptimalStaking </Link>
             </li>
           </ul>
-        <button type="button" className="btn btn-warning mt-2">Connect to wallet</button>
+
         </div>
       </div>
     </header>

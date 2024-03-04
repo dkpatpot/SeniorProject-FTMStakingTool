@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import TransactionTable from "./TransactionTable";
 import axios from "axios";
-import Tax from "./Tax";
+import Tax from "./Tax"; 
 function Content() {
   const [transactionList, setTransactionList] = useState([]);
   let [isTransactionlist, setIsTransactionList] = useState(false);
@@ -10,9 +10,9 @@ function Content() {
     setTransactionList(data);
     setIsTransactionList(true);
   }
-  function getTransaction() {
-    console.log(transactionList);
-  }
+  // function getTransaction() {
+  //   console.log(transactionList);
+  // }
   async function traceTxs(transactionHash) {
     try {
       const response = await axios.get(
@@ -20,7 +20,6 @@ function Content() {
           params: { transactionHash: transactionHash }
         }
       );
-      console.log(response.data.result);
       return response.data.result;
     } catch (error) {
       console.error("Error trace transaction data:", error);
@@ -31,26 +30,24 @@ function Content() {
       const response = await axios.get("http://localhost:4000/getlogs", {
         params: { blockHash: blockHash }
       });
-      console.log(response.data.result);
       return response.data.result;
     } catch (error) {
       console.error("Error trace transaction data:", error);
     }
   }
-  async function getHistoricalPrice(date) {
-    try {
-      const response = await axios.get(
-        "http://localhost:4000/gethistoricalmarketdata", {
-          params: { date: date }
-        }
-      );
-      console.log(response.data.market_data.current_price.usd);
-      return response.data.market_data.current_price.usd;
+  // async function getHistoricalPrice(date) {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:4000/gethistoricalmarketdata", {
+  //         params: { date: date }
+  //       }
+  //     );
+  //     return response.data.market_data.current_price.usd;
       
-    } catch (error) {
-      console.error("Error get historical data:", error);
-    }
-  }
+  //   } catch (error) {
+  //     console.error("Error get historical data:", error);
+  //   }
+  // }
 
 
   return (
@@ -58,9 +55,8 @@ function Content() {
       <div className="col-lg-4 mx-auto">
         <SearchBar callBackTransaction={transactionListCallBack} />
       </div>
-      
       <div className="col-lg-8 mx-auto">
-        <button
+        {/* <button
           className="btn btn-warning m-2"
           type="button"
           onClick={getTransaction}
@@ -79,9 +75,10 @@ function Content() {
         </button>
         <button className="btn btn-warning m-2" type="button" onClick={() => getTxsLogs("0x0003f5490000019467dd01e4f9159f7160bf442a54191deea2a3f64b305ac33f")}>
           Get transaction logs
-        </button>
+        </button> */}
         {isTransactionlist ? <div><TransactionTable transactionList={transactionList} /><Tax transactionList={transactionList} traceTxs={traceTxs} getTxsLogs={getTxsLogs}/></div>:<div></div>}
       </div>
+      
     </div>
   );
 }

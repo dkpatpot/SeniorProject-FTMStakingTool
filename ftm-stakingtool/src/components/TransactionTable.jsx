@@ -10,7 +10,6 @@ import TableRow from '@mui/material/TableRow';
 
 const wei = 1000000000000000000;
 const columns = [
-  { id: 'transactionHash', label: 'Transaction Hash', minWidth: 150 },
   { id: 'method', label: 'Method', minWidth: 70 },
   {
     id: 'from',
@@ -38,9 +37,9 @@ export default function TransactionTable(props) {
   const rows = [];
   props.transactionList.forEach((transaction)=>{
     if (transaction.decoded_call === null){
-      rows.push({transactionHash:transaction.hash,method:"transfer",from:transaction.from_address,to: transaction.to_address,value:transaction.value/wei+' FTM'});
+      rows.push({method:"transfer",from:transaction.from_address,to: transaction.to_address,value:transaction.value/wei+' FTM'});
     }else{
-      rows.push({transactionHash:transaction.hash,method:transaction.decoded_call.label,from:transaction.from_address,to: transaction.to_address,value:transaction.value/wei+' FTM'});
+      rows.push({method:transaction.decoded_call.label,from:transaction.from_address,to: transaction.to_address,value:transaction.value/wei+' FTM'});
     }
     
   });

@@ -6,7 +6,6 @@ function Tax(props) {
   }, []);
   const wei = 1000000000000000000;
   let [ftmPriceHistorical, setFtmPriceHistorical] = useState("");
-  let [ftmPrice, setFtmPrice] = useState(0);
   let [totalFtmStake, setTotalFtmStake] = useState(0);
   let [totalFtmStakePrice, setTotalFtmStakePrice] = useState(0);
   let [totalClaimReward, setTotalClaimReward] = useState(0);
@@ -19,16 +18,12 @@ function Tax(props) {
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getUTCDate().toString();
-    const month = (date.getUTCMonth() + 1).toString(); // Month is zero-based
+    const month = (date.getUTCMonth() + 1).toString();
     const year = date.getUTCFullYear();
     const formattedDate = `${month}/${day}/${year}`;
     return formattedDate;
   }
   async function clearMemory() {
-    console.log(totalFtmStake);
-    console.log(totalFtmStakePrice);
-    console.log(totalClaimReward);
-    console.log(totalClaimRewardPrice);
     setTotalFtmStake(0);
     setTotalFtmStakePrice(0);
     setTotalClaimReward(0);
@@ -56,6 +51,8 @@ function Tax(props) {
   }
 
   async function calculateTax() {
+    let currentDate = new Date().toJSON().slice(0, 10);
+    let currentPrice = queryDate(formatDate(currentDate));
     props.transactionList.forEach(async (transaction) => {
       if (transaction.decoded_call === null) {
       } else if (transaction.decoded_call.label === "delegate") {
@@ -79,19 +76,15 @@ function Tax(props) {
         setTotalClaimReward((totalClaimReward += claimRewardsFTM));
         setTotalClaimRewardPrice((totalClaimRewardPrice += claimRewardsPrice));
       } else if (transaction.decoded_call.label === "withdraw") {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        console.log(currentDate);
-        let currentPrice = queryDate(formatDate(currentDate));
         let traceTransaction = await props.traceTxs(transaction.hash);
         let arrayLength = traceTransaction.length - 1;
         let ftmWithdraw = traceTransaction[arrayLength].action.value;
         setTotalTokenWithdraw(
           (totalTokenWithdraw += parseInt(ftmWithdraw, 16) / wei)
         );
-        setFtmPrice(currentPrice);
         setTotalTokenWithdrawPrice(
           (totalTokenWithdrawPrice +=
-            (ftmPrice * parseInt(ftmWithdraw, 16)) / wei)
+            (currentPrice * parseInt(ftmWithdraw, 16)) / wei)
         );
       } else if (transaction.decoded_call.label === "restakeRewards") {
         let historicalPrice = queryDate(
@@ -104,7 +97,6 @@ function Tax(props) {
           (totalRestakePrice +=
             (historicalPrice * parseInt(restakePrice, 16)) / wei)
         );
-        console.log();
       }
       setIsTaxCalculated(true);
     });
