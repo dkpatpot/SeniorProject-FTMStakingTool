@@ -1,19 +1,23 @@
-import * as React from 'react';
-
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import Hero from '../components/Hero';
+import PricingHero from '../components/PricingHero';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import PriceChart from '../components/PriceChart';
+import HighlightsMarketData from '../components/HighlightsMarketData';
 export default function Pricing() {
+    let [marketData,setMarketData] = useState();
+    function MarketDataCallBack(data) {
+        setMarketData(data);
+    }
   return (
     <div>
       <Header />
-      <Hero />
+      <PricingHero callBackMarketData={MarketDataCallBack}/>
       <Box sx={{ bgcolor: 'background.default' }}>
         <Divider />
-        <PriceChart />
+        <HighlightsMarketData marketData={marketData}/>
+        <Divider />
         <Footer />
       </Box>
     </div>

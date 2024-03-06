@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import TaxTable from "./TaxTable";
 function Tax(props) {
   useEffect(() => {
     fetchHistoryData();
@@ -23,7 +24,16 @@ function Tax(props) {
     const formattedDate = `${month}/${day}/${year}`;
     return formattedDate;
   }
+  function disableButton(){
+    document.getElementById("calculateTax").disabled = true;
+    document.getElementById("clearTax").disabled = false;
+  }
+  function enableButton(){
+    document.getElementById("calculateTax").disabled = false;
+    document.getElementById("clearTax").disabled = true;
+  }
   async function clearMemory() {
+    enableButton();
     setTotalFtmStake(0);
     setTotalFtmStakePrice(0);
     setTotalClaimReward(0);
@@ -31,7 +41,7 @@ function Tax(props) {
     setTotalTokenWithdraw(0);
     setTotalTokenWithdrawPrice(0);
     setTotalRestake(0);
-    setTotalFtmStakePrice(0);
+    setTotalRestakePrice(0);
     setIsTaxCalculated(false);
   }
   function queryDate(dateString) {
@@ -51,6 +61,7 @@ function Tax(props) {
   }
 
   async function calculateTax() {
+    disableButton();
     let currentDate = new Date().toJSON().slice(0, 10);
     let currentPrice = queryDate(formatDate(currentDate));
     props.transactionList.forEach(async (transaction) => {
@@ -103,38 +114,28 @@ function Tax(props) {
   }
   return (
     <div>
+      {isTaxCalculated ? (<TaxTable totalFtmStake={totalFtmStake} totalFtmStakePrice={totalFtmStakePrice} totalClaimReward={totalClaimReward} totalClaimRewardPrice={totalClaimRewardPrice} totalTokenWithdraw={totalTokenWithdraw} totalTokenWithdrawPrice={totalTokenWithdrawPrice} totalRestake={totalRestake} totalRestakePrice={totalRestakePrice} capitalgainTax={props.capitalgainTax} incomeTax={props.incomeTax}/>
+      ) : (
+        <div></div>
+      )}
       <div className="px-4 my-5 text-center">
         <button
+          id="calculateTax"
           className="btn btn-warning m-2"
           type="button"
           onClick={calculateTax}
         >
-          Calculate Taxes
+          Calculate Tax
         </button>
         <button
+          id="clearTax"
           className="btn btn-warning m-2"
           type="button"
           onClick={clearMemory}
         >
-          Clear Memory
+          Clear Tax
         </button>
       </div>
-      {isTaxCalculated ? (
-        <div className="container my-5">
-          <div className="p-5 text-center bg-body-tertiary rounded-3">
-            <h3>totalFtmStake {totalFtmStake} FTM</h3>
-            <h3>totalFtmStakePrice {totalFtmStakePrice} USD</h3>
-            <h3>totalClaimReward {totalClaimReward} FTM</h3>
-            <h3>totalClaimRewardPrice {totalClaimRewardPrice} USD</h3>
-            <h3>totalTokenWithdraw {totalTokenWithdraw} FTM</h3>
-            <h3>totalTokenWithdrawPrice {totalTokenWithdrawPrice} USD</h3>
-            <h3>totalRestake {totalRestake} FTM</h3>
-            <h3>totalRestakePrice {totalRestakePrice} USD</h3>
-          </div>
-        </div>
-      ) : (
-        <div></div>
-      )}
     </div>
   );
 }

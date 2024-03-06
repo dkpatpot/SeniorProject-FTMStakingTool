@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-export default function Hero() {
+export default function TaxCalculatorHero() {
   return (
     <Box
       id="hero"
@@ -29,8 +29,8 @@ export default function Hero() {
       >
         <Stack spacing={2} useFlexGap sx={{ width: { xs: '100%', sm: '70%' } }}>
           <Typography
-            component="h1"
-            variant="h1"
+            component="h3"
+            variant="h3"
             sx={{
               display: 'flex',
               flexDirection: { xs: 'column', md: 'row' },
@@ -38,27 +38,22 @@ export default function Hero() {
               textAlign: 'center',
             }}
           >
-            Fantom&nbsp;
+            Fantom Staking&nbsp;
             <Typography
               component="span"
-              variant="h1"
+              variant="h3"
               sx={{
                 color: (theme) =>
                   theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
               }}
             >
-              stake tools
+              Tax calculator
             </Typography>
           </Typography>
           <Typography variant="body1" textAlign="center" color="text.secondary">
-            Explore our staking tax calculator and optimal staking in Fantom block chain.<br />
-            Elevate your experience with a Fantom staking tools.
-            {/* "FANTOM is a new DAG based Smart Contract platform that intends to solve the scalability issues of existing public distributed ledger technologies.<br />
-            The platform intends to distinguish itself from the traditional block ledger-based storage infrastructure by attempting to employ an improved version of existing DAG-based pro-tocols. The FANTOM platform adopts a new protocol known as the “Lachesis Protocol” to maintain consensus. This protocol is intended to be integrated into the Fantom OPERA Chain. The aim is to allow applications built on top of the FANTOM OPERA Chain to enjoy instant transactions and near zero transaction costs for all users.<br />
-            The mission of FANTOM is to provide compatibility between all transaction bodies around the world, and create an ecosystem which allows real-time transactions and data sharing with low cost."<br /> */}
+            Fantom tools for calculate tax by addresses and for income tax and capital gain tax.
           </Typography>
         </Stack>
-    
       </Container>
     </Box>
   );

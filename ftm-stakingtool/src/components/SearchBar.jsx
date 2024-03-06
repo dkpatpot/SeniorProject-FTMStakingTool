@@ -8,7 +8,6 @@ function SearchBar(props) {
 
   function addressChange(event) {
     setAddress(event.target.value);
-    console.log(address);
   }
 
   async function fetchTransaction() {
@@ -17,6 +16,15 @@ function SearchBar(props) {
         params: { address: address }
       });
       props.callBackTransaction(response.data.response.result);
+      let filteredTransaction = [];
+      if (props.date != null){
+            response.data.response.result.forEach((transaction) => {
+              if (new Date(transaction.block_timestamp)>new Date(props.date)){
+                  filteredTransaction.push(transaction);
+              }
+          });
+          props.callBackTransaction(filteredTransaction);
+      }
       console.log(response.data.response.result);
     } catch (error) {
       props.callBackTransaction([]);

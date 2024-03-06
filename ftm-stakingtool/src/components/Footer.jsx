@@ -14,9 +14,10 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" mt={1}>
       {'Copyright © '}
+      {new Date().getFullYear()}&nbsp;
       <Link href="https://github.com/dkpatpot">thanaphat</Link>&
-      <Link href="https://github.com/kanisont">kanisorn&nbsp;</Link>
-      {new Date().getFullYear()}
+      <Link href="https://github.com/kanisont">kanisorn</Link>
+      .&nbsp;All rights reserved.
     </Typography>
   );
 }
