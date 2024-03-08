@@ -5,9 +5,11 @@ import cors from "cors";
 import axios from "axios";
 import fs from "fs";
 import csv from "csv-parser";
+import dotenv from "dotenv";
 const app = express();
 const port = 4000;
 app.use(cors());
+dotenv.config();
 const chain = EvmChain.FANTOM;
 app.get("/transaction", async (req, res) => {
   try {
@@ -56,7 +58,7 @@ app.get("/getlogs", async (req, res) => {
     params: [
       {
         address: ["0xfc00face00000000000000000000000000000000"],
-        blockHash:blockHash,
+        blockHash: blockHash,
       },
     ],
   };
@@ -118,9 +120,9 @@ app.get("/readHistoricalCSVFile", (req, res) => {
     });
 });
 Moralis.start({
-  apiKey:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjZlYzU0MmVhLTk5ODQtNDcwOC05MzkyLTJkMWQ4ZmNjYTdlMSIsIm9yZ0lkIjoiMzcyMjAzIiwidXNlcklkIjoiMzgyNTE1IiwidHlwZUlkIjoiZTcyNmRkZDMtZWQyNy00NTU4LWIyZTEtZWMwMzc3YTUwYWE2IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MDUyMzk2MTEsImV4cCI6NDg2MDk5OTYxMX0.nf6WsXNp9G0DinRfs69A4MLi8oghz7v98NkmyDpwN2Q",
+  apiKey: process.env.MORALIS_API_KEY,
 }).then(() => {
+  console.log(process.env.MORALIS_API_KEY);
   app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
   });
