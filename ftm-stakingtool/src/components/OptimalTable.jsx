@@ -111,12 +111,17 @@ const rows = [
   createData(2, 237),
   createData(3, 262),
   createData(4, 305),
-  createData(5, 356),
+  createData(6, 356),
+  createData(7, 356),
+  createData(8, 356),
+  createData(9, 356),
+  createData(10, 356),
+  createData(11, 356),
 ];
 
 export default function OptimalTable() {
   return (
-    <TableContainer component={Paper} sx={{ width: "100%" }}>
+    <TableContainer component={Paper} sx={{ height: 525, width: "100%" }}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
