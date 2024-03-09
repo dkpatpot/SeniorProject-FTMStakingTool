@@ -14,20 +14,21 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-function createData(restakeNo, day) {
+function createData(
+  restakeNo,
+  day,
+  amountBoforeRestake,
+  reward,
+  amountAfterRestake
+) {
   return {
     restakeNo,
     day,
     restakeDetail: [
       {
-        amountBoforeRestake: "2020-01-05",
-        reward: "11091700",
-        amountAfterRestake: 3,
-      },
-      {
-        amountBoforeRestake: "2020-01-02",
-        reward: "Anonymous",
-        amountAfterRestake: 1,
+        amountBoforeRestake,
+        reward,
+        amountAfterRestake,
       },
     ],
   };
@@ -106,20 +107,24 @@ Row.propTypes = {
   }).isRequired,
 };
 
-const rows = [
-  createData(1, 159),
-  createData(2, 237),
-  createData(3, 262),
-  createData(4, 305),
-  createData(6, 356),
-  createData(7, 356),
-  createData(8, 356),
-  createData(9, 356),
-  createData(10, 356),
-  createData(11, 356),
-];
+let rows = [];
 
-export default function OptimalTable() {
+export default function OptimalTable(props) {
+  for (let day = 0; day < props.bestRestakeDay.length; day++) {
+    if (day === 0) {
+      rows = [];
+    }
+    rows.push(
+      createData(
+        day + 1,
+        props.bestRestakeDay[day],
+        props.restakeDetail[day][0],
+        props.restakeDetail[day][1],
+        props.restakeDetail[day][2]
+      )
+    );
+  }
+
   return (
     <TableContainer component={Paper} sx={{ height: 525, width: "100%" }}>
       <Table aria-label="collapsible table">

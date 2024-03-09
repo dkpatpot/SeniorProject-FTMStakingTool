@@ -7,15 +7,107 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import OptimalTable from "./OptimalTable";
 import OptimalChart from "./OptimalChart";
 import OptimalResult from "./OptimalResult";
+import SearchIcon from "@mui/icons-material/Search";
+
+function ftmToUSD(number) {
+  return Math.ceil((number / 0.66) * 10000) / 10000;
+}
+
+function toFourPoint(number) {
+  return Math.ceil(number * 10000) / 10000;
+}
+
+function dailyRestake(initialStakeInput, stakingPeriodInput) {
+  let initialStake = initialStakeInput * 0.66;
+  let stakingPeriod = stakingPeriodInput;
+  let rewardPercentage = 0.0612 / stakingPeriod;
+  let gasPrice = 0.0012;
+
+  let allStake = initialStake;
+  let currentReward = 0;
+
+  let restakeDay = [];
+  let restakeDetail = [];
+
+  for (let i = 1; i <= stakingPeriod; i++) {
+    currentReward += allStake * rewardPercentage;
+    if (currentReward > gasPrice) {
+      restakeDetail.push([
+        ftmToUSD(allStake),
+        ftmToUSD(currentReward),
+        ftmToUSD(allStake + currentReward - gasPrice),
+      ]);
+      allStake += currentReward - gasPrice;
+      currentReward = 0;
+      restakeDay.push(i);
+    }
+    if (i === 365 && currentReward != 0) {
+      allStake += currentReward;
+      currentReward = 0;
+    }
+  }
+  let allStakeFormat = Math.ceil((allStake / 0.66) * 10000) / 10000;
+  return [allStakeFormat, restakeDay, restakeDetail];
+}
+
+function compareDaily(initialStakeInput, stakingPeriodInput) {
+  let initialStake = initialStakeInput * 0.66;
+  let stakingPeriod = stakingPeriodInput;
+  let rewardPercentage = 0.0612 / stakingPeriod;
+  let gasPrice = 0.0012;
+
+  let allStake = initialStake;
+  let currentReward = 0;
+
+  let tempAllStake = initialStake;
+  let tempCurrentReward = 0;
+
+  let restakeDay = [];
+  let restakeDetail = [];
+
+  for (let i = 1; i <= stakingPeriod; i++) {
+    currentReward += allStake * rewardPercentage;
+    tempCurrentReward += tempAllStake * rewardPercentage;
+
+    if (currentReward > gasPrice) {
+      allStake += currentReward - gasPrice;
+      currentReward = 0;
+
+      if (tempAllStake + tempCurrentReward - gasPrice < allStake) {
+        allStake = tempAllStake + tempCurrentReward - gasPrice;
+        restakeDetail.push([
+          ftmToUSD(tempAllStake),
+          ftmToUSD(tempCurrentReward - gasPrice),
+          ftmToUSD(allStake),
+        ]);
+        tempAllStake = allStake;
+        tempCurrentReward = 0;
+        restakeDay.push(i);
+      }
+    }
+    if (i === 365 && tempCurrentReward != 0) {
+      allStake = tempAllStake + tempCurrentReward;
+      tempAllStake = allStake;
+      tempCurrentReward = 0;
+    }
+  }
+  let allStakeFormat = Math.ceil((allStake / 0.66) * 10000) / 10000;
+  return [allStakeFormat, restakeDay, restakeDetail];
+  // return [allStake / 0.66, restakeDay];
+}
 
 function HighlightsOptimalStaking() {
   let [initialAmount, setInitialAmount] = useState(1000);
   let [stakingPeriod, setStakingPeriod] = useState(7);
+
+  let [mostReward, setMostReward] = useState(0);
+  let [bestRestakeDay, setBestRestakeDay] = useState([]);
+  let [restakeDetail, setRestakeDetail] = useState([]);
 
   function changeInitialAmount(event) {
     const newInitailValue = event.target.value;
@@ -26,25 +118,52 @@ function HighlightsOptimalStaking() {
     } else {
       setInitialAmount(newInitailValue);
     }
-    console.log(initialAmount);
   }
-  const [value, setValue] = React.useState(7);
 
   const handleSliderChange = (event, newValue) => {
-    setValue(newValue);
+    setStakingPeriod(event.target.value);
   };
 
   const handleInputChange = (event) => {
-    setValue(event.target.value === "" ? 0 : Number(event.target.value));
+    setStakingPeriod(Number(event.target.value));
   };
 
   const handleBlur = () => {
-    if (value < 7) {
-      setValue(7);
-    } else if (value > 365) {
-      setValue(365);
+    if (stakingPeriod < 7) {
+      setStakingPeriod(7);
+    } else if (stakingPeriod > 365) {
+      setStakingPeriod(365);
     }
   };
+
+  const compareMostReward = () => {
+    console.log(initialAmount);
+    console.log(stakingPeriod);
+    let [allStakeFormatDaily, restakeDayDaily, restakeDetailDaily] =
+      dailyRestake(initialAmount, stakingPeriod);
+    let [
+      allStakeFormatCompareDaily,
+      restakeDayCompareDaily,
+      restakeDetailCompareDaily,
+    ] = compareDaily(initialAmount, stakingPeriod);
+
+    if (allStakeFormatDaily > allStakeFormatCompareDaily) {
+      setMostReward(allStakeFormatDaily);
+      setBestRestakeDay(restakeDayDaily);
+      setRestakeDetail(restakeDetailDaily);
+    } else {
+      setMostReward(allStakeFormatCompareDaily);
+      setBestRestakeDay(restakeDayCompareDaily);
+      setRestakeDetail(restakeDetailCompareDaily);
+    }
+    console.log("most reward : ", mostReward);
+    console.log("best restake : ", bestRestakeDay);
+    console.log("restakeDetail : ", restakeDetail);
+  };
+
+  useEffect(() => {
+    compareMostReward();
+  }, []);
 
   return (
     <div>
@@ -86,7 +205,7 @@ function HighlightsOptimalStaking() {
                 type="number"
                 id="outlined-required"
                 label="Initial Amount"
-                defaultValue={initialAmount}
+                value={initialAmount}
                 sx={{
                   m: 1,
                   width: "25ch",
@@ -125,8 +244,12 @@ function HighlightsOptimalStaking() {
 
                   <Grid item xs>
                     <Slider
-                      value={typeof value === "number" ? value : 0}
-                      onChange={handleSliderChange}
+                      value={
+                        typeof stakingPeriod === "number" ? stakingPeriod : 7
+                      }
+                      onChange={(event) => {
+                        handleSliderChange(event);
+                      }}
                       aria-labelledby="input-slider"
                       max={365}
                       min={7}
@@ -140,9 +263,11 @@ function HighlightsOptimalStaking() {
 
                   <Grid item>
                     <Input
-                      value={value}
+                      value={stakingPeriod}
                       size="small"
-                      onChange={handleInputChange}
+                      onChange={(event) => {
+                        handleInputChange(event);
+                      }}
                       onBlur={handleBlur}
                       inputProps={{
                         step: 1,
@@ -176,17 +301,36 @@ function HighlightsOptimalStaking() {
             </div>
           </div>
           <div className="row">
+            <button
+              className="btn btn-warning"
+              type="button"
+              onClick={compareMostReward}
+            >
+              <SearchIcon />
+            </button>
+          </div>
+          <div className="row">
             <div className="col">
               <Box sx={{ width: "100%" }}>
-                <OptimalTable />
+                <OptimalTable
+                  mostReward={mostReward}
+                  bestRestakeDay={bestRestakeDay}
+                  restakeDetail={restakeDetail}
+                />
               </Box>
             </div>
             <div className="col mx-1">
               <div className="row">
-                <OptimalChart />
+                <OptimalChart
+                  bestRestakeDay={bestRestakeDay}
+                  restakeDetail={restakeDetail}
+                />
               </div>
               <div className="row">
-                <OptimalResult />
+                <OptimalResult
+                  mostReward={mostReward}
+                  initialAmount={initialAmount}
+                />
               </div>
             </div>
           </div>

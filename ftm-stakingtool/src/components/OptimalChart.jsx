@@ -2,14 +2,25 @@ import * as React from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { Box } from "@mui/material";
 
-export default function OptimalChart() {
+export default function OptimalChart(props) {
+  let restakeDay = [];
+  let afterRestake = [];
+
+  props.bestRestakeDay.forEach((day) => {
+    restakeDay.push(day);
+  });
+
+  for (let i = 0; i < props.restakeDetail.length; i++) {
+    afterRestake.push(props.restakeDetail[i][2]);
+  }
+
   return (
     <Box>
       <LineChart
-        xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+        xAxis={[{ data: afterRestake }]}
         series={[
           {
-            data: [2, 5.5, 2, 8.5, 1.5, 5],
+            data: restakeDay,
           },
         ]}
         width={500}
