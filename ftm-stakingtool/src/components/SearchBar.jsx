@@ -37,8 +37,8 @@ function SearchBar(props) {
       <input
         type="text"
         className="form-control "
-        placeholder="Search by addresses, transactions, and blocks"
-        aria-label="Search by addresses, transactions, and blocks"
+        placeholder="Search by addresses"
+        aria-label="Search by addresses"
         aria-describedby="basic-addon2"
         value={address}
         onChange={(event) => {

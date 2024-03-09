@@ -51,7 +51,7 @@ export default function FAQ() {
             id="panel1d-header"
           >
             <Typography component="h3" variant="subtitle2">
-              How do I contact customer support if I have a question or issue?
+              How do I contact developer team if I have a question or issue?
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -60,9 +60,7 @@ export default function FAQ() {
               gutterBottom
               sx={{ maxWidth: { sm: '100%', md: '70%' } }}
             >
-              You can reach our customer support team by emailing
-              <Link> support@email.com </Link>
-              or calling our toll-free number. We&apos;re here to assist you
+              You can reach our developer team by emailing <Link>thanaphat2142@gmail.com</Link> or <Link>thisisarealcopy@gmail.com</Link>. We&apos;re here to assist you
               promptly.
             </Typography>
           </AccordionDetails>
@@ -77,7 +75,7 @@ export default function FAQ() {
             id="panel2d-header"
           >
             <Typography component="h3" variant="subtitle2">
-              Can I return the product if it doesn&apos;t meet my expectations?
+              How to use tax calculator or optimal staking?
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -86,9 +84,7 @@ export default function FAQ() {
               gutterBottom
               sx={{ maxWidth: { sm: '100%', md: '70%' } }}
             >
-              Absolutely! We offer a hassle-free return policy. If you&apos;re not
-              completely satisfied, you can return the product within [number of
-              days] days for a full refund or exchange.
+              You can use all of the staking tools by navigation bar that place on top of the website.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -102,7 +98,7 @@ export default function FAQ() {
             id="panel3d-header"
           >
             <Typography component="h3" variant="subtitle2">
-              What makes your product stand out from others in the market?
+              How do I get my transaction?
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -111,9 +107,7 @@ export default function FAQ() {
               gutterBottom
               sx={{ maxWidth: { sm: '100%', md: '70%' } }}
             >
-              Our product distinguishes itself through its adaptability, durability,
-              and innovative features. We prioritize user satisfaction and
-              continually strive to exceed expectations in every aspect.
+            You can place your addresses inside search bar that located in home page and tax calculator page the hit the button to get a transaction.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -127,7 +121,7 @@ export default function FAQ() {
             id="panel4d-header"
           >
             <Typography component="h3" variant="subtitle2">
-              Is there a warranty on the product, and what does it cover?
+              Can I bring this project to develop for more features?
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -136,10 +130,7 @@ export default function FAQ() {
               gutterBottom
               sx={{ maxWidth: { sm: '100%', md: '70%' } }}
             >
-              Yes, our product comes with a [length of warranty] warranty. It covers
-              defects in materials and workmanship. If you encounter any issues
-              covered by the warranty, please contact our customer support for
-              assistance.
+              Yes, of course this project is a open-source project you can clone this project by click on github icon below at footer bar at the bottom.
             </Typography>
           </AccordionDetails>
         </Accordion>

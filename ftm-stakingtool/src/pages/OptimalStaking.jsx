@@ -7,7 +7,7 @@ import HighlightsOptimalStaking from "../components/HighlightsOptimalStaking";
 
 function OptimalStaking() {
     return (
-        <div>
+        <div className="montserrat">
             <Header />
             <OptimalStakingHero />
             <Box sx={{ bgcolor: 'background.default' }}>

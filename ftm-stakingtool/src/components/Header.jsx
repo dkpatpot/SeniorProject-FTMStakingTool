@@ -30,11 +30,6 @@ function Header() {
             <Link to="/pricing" className="nav-link px-2 text-white"> Pricing </Link>
             </li>
             <li>
-              <a href="https://fantom.foundation/" className="nav-link px-2 text-white">
-                About
-              </a>
-            </li>
-            <li>
             <Link to="/stakingcalculator" className="nav-link px-2 text-white"> TaxCalculator </Link>
             </li>
             <li>

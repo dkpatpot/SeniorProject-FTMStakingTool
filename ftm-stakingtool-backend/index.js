@@ -14,7 +14,6 @@ const chain = EvmChain.FANTOM;
 app.get("/transaction", async (req, res) => {
   try {
     const address = req.query.address;
-    console.log(address);
     const response =
       await Moralis.EvmApi.transaction.getWalletTransactionsVerbose({
         address,
@@ -122,7 +121,6 @@ app.get("/readHistoricalCSVFile", (req, res) => {
 Moralis.start({
   apiKey: process.env.MORALIS_API_KEY,
 }).then(() => {
-  console.log(process.env.MORALIS_API_KEY);
   app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
   });
