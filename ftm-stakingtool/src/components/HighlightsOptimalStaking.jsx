@@ -12,48 +12,10 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import OptimalTable from "./OptimalTable";
 import OptimalChart from "./OptimalChart";
 import OptimalResult from "./OptimalResult";
-import SearchIcon from "@mui/icons-material/Search";
 import CalculateIcon from "@mui/icons-material/Calculate";
 
 function ftmToUSD(number) {
   return Math.ceil((number / 0.66) * 10000) / 10000;
-}
-
-function toFourPoint(number) {
-  return Math.ceil(number * 10000) / 10000;
-}
-
-function dailyRestake(initialStakeInput, stakingPeriodInput) {
-  let initialStake = initialStakeInput * 0.66;
-  let stakingPeriod = stakingPeriodInput;
-  let rewardPercentage = 0.0612 / stakingPeriod;
-  let gasPrice = 0.0012;
-
-  let allStake = initialStake;
-  let currentReward = 0;
-
-  let restakeDay = [];
-  let restakeDetail = [];
-
-  for (let i = 1; i <= stakingPeriod; i++) {
-    currentReward += allStake * rewardPercentage;
-    if (currentReward > gasPrice) {
-      restakeDetail.push([
-        ftmToUSD(allStake),
-        ftmToUSD(currentReward),
-        ftmToUSD(allStake + currentReward - gasPrice),
-      ]);
-      allStake += currentReward - gasPrice;
-      currentReward = 0;
-      restakeDay.push(i);
-    }
-    if (i === 365 && currentReward != 0) {
-      allStake += currentReward;
-      currentReward = 0;
-    }
-  }
-  let allStakeFormat = Math.ceil((allStake / 0.66) * 10000) / 10000;
-  return [allStakeFormat, restakeDay, restakeDetail];
 }
 
 function compareDaily(initialStakeInput, stakingPeriodInput) {
@@ -71,6 +33,9 @@ function compareDaily(initialStakeInput, stakingPeriodInput) {
   let restakeDay = [];
   let restakeDetail = [];
 
+  let switchAlgoAllStake = initialStake;
+  let switchAlgoCurrentReward = 0;
+
   for (let i = 1; i <= stakingPeriod; i++) {
     currentReward += allStake * rewardPercentage;
     tempCurrentReward += tempAllStake * rewardPercentage;
@@ -79,7 +44,7 @@ function compareDaily(initialStakeInput, stakingPeriodInput) {
       allStake += currentReward - gasPrice;
       currentReward = 0;
 
-      if (tempAllStake + tempCurrentReward - gasPrice < allStake) {
+      if (tempAllStake + tempCurrentReward - gasPrice > allStake) {
         allStake = tempAllStake + tempCurrentReward - gasPrice;
         restakeDetail.push([
           ftmToUSD(tempAllStake),
@@ -89,12 +54,62 @@ function compareDaily(initialStakeInput, stakingPeriodInput) {
         tempAllStake = allStake;
         tempCurrentReward = 0;
         restakeDay.push(i);
+        switchAlgoAllStake = allStake;
       }
     }
-    if (i === 365 && tempCurrentReward != 0) {
-      allStake = tempAllStake + tempCurrentReward;
-      tempAllStake = allStake;
-      tempCurrentReward = 0;
+    if (i === stakingPeriod) {
+      if (allStake > tempAllStake + tempCurrentReward - gasPrice) {
+        console.log(restakeDay.length);
+        if (restakeDay.length === 0) {
+          for (let j = 1; j <= stakingPeriod; j++) {
+            switchAlgoCurrentReward += switchAlgoAllStake * rewardPercentage;
+            if (switchAlgoAllStake > gasPrice) {
+              restakeDetail.push([
+                ftmToUSD(switchAlgoAllStake),
+                ftmToUSD(switchAlgoCurrentReward),
+                ftmToUSD(
+                  switchAlgoAllStake + switchAlgoCurrentReward - gasPrice
+                ),
+              ]);
+              switchAlgoAllStake += switchAlgoCurrentReward - gasPrice;
+              switchAlgoCurrentReward = 0;
+              restakeDay.push(j);
+            }
+            if (i === 365 && switchAlgoCurrentReward != 0) {
+              switchAlgoAllStake += switchAlgoCurrentReward;
+              switchAlgoCurrentReward = 0;
+            }
+          }
+        } else {
+          for (
+            let j = restakeDay[restakeDay.length - 1] + 1;
+            j <= stakingPeriod;
+            j++
+          ) {
+            switchAlgoCurrentReward += switchAlgoAllStake * rewardPercentage;
+            if (switchAlgoAllStake > gasPrice) {
+              restakeDetail.push([
+                ftmToUSD(switchAlgoAllStake),
+                ftmToUSD(switchAlgoCurrentReward),
+                ftmToUSD(
+                  switchAlgoAllStake + switchAlgoCurrentReward - gasPrice
+                ),
+              ]);
+              switchAlgoAllStake += switchAlgoCurrentReward - gasPrice;
+              switchAlgoCurrentReward = 0;
+              restakeDay.push(j);
+            }
+            if (i === 365 && switchAlgoCurrentReward != 0) {
+              switchAlgoAllStake += switchAlgoCurrentReward;
+              switchAlgoCurrentReward = 0;
+            }
+          }
+        }
+      } else {
+        allStake = tempAllStake + tempCurrentReward;
+        tempAllStake = allStake;
+        tempCurrentReward = 0;
+      }
     }
   }
   let allStakeFormat = Math.ceil((allStake / 0.66) * 10000) / 10000;
@@ -140,23 +155,15 @@ function HighlightsOptimalStaking() {
   const compareMostReward = () => {
     console.log(initialAmount);
     console.log(stakingPeriod);
-    let [allStakeFormatDaily, restakeDayDaily, restakeDetailDaily] =
-      dailyRestake(initialAmount, stakingPeriod);
     let [
       allStakeFormatCompareDaily,
       restakeDayCompareDaily,
       restakeDetailCompareDaily,
     ] = compareDaily(initialAmount, stakingPeriod);
+    setMostReward(allStakeFormatCompareDaily);
+    setBestRestakeDay(restakeDayCompareDaily);
+    setRestakeDetail(restakeDetailCompareDaily);
 
-    if (allStakeFormatDaily > allStakeFormatCompareDaily) {
-      setMostReward(allStakeFormatDaily);
-      setBestRestakeDay(restakeDayDaily);
-      setRestakeDetail(restakeDetailDaily);
-    } else {
-      setMostReward(allStakeFormatCompareDaily);
-      setBestRestakeDay(restakeDayCompareDaily);
-      setRestakeDetail(restakeDetailCompareDaily);
-    }
     console.log("most reward : ", mostReward);
     console.log("best restake : ", bestRestakeDay);
     console.log("restakeDetail : ", restakeDetail);
