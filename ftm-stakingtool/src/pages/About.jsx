@@ -3,15 +3,14 @@ import Divider from '@mui/material/Divider';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Box from '@mui/material/Box';
-import TaxCalculatorHero from "../components/TaxCalculatorHero";
 import HighlightsTaxCalculator from "../components/HighlightsTaxCalculator";
 
-function StakingCalulator() {
+function About() {
 
     return (
         <div className="montserrat">
             <Header />
-            <TaxCalculatorHero />
+
             <Box sx={{ bgcolor: 'background.default' }}>
                 <Divider />
                 <HighlightsTaxCalculator />
@@ -22,4 +21,4 @@ function StakingCalulator() {
     );
 };
 
-export default StakingCalulator;
+export default About;

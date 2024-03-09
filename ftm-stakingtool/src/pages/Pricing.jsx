@@ -11,7 +11,7 @@ export default function Pricing() {
         setMarketData(data);
     }
   return (
-    <div>
+    <div className='montserrat'>
       <Header />
       <PricingHero callBackMarketData={MarketDataCallBack}/>
       <Box sx={{ bgcolor: 'background.default' }}>

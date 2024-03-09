@@ -10,7 +10,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 export default function Landingpage() {
   return (
-    <div>
+    <div className='montserrat'>
       <Header />
       <Hero />
       <Box sx={{ bgcolor: 'background.default' }}>

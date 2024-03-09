@@ -4,6 +4,7 @@ import StakingCalulator from "../pages/StakingCalculator";
 import OptimalStaking from "../pages/OptimalStaking";
 import LandingPage from "../pages/LandingPage";
 import Pricing from "../pages/Pricing";
+import About from "../pages/About";
 function App() {
   return (
     <BrowserRouter>
@@ -12,6 +13,7 @@ function App() {
         <Route path="/stakingCalculator" element={<StakingCalulator/>}/>
         <Route path="/optimalstaking" element={<OptimalStaking/>}/>
         <Route path="/pricing" element={<Pricing/>}/>
+        <Route path="/about" element={<About/>}/>
       </Routes>
     </BrowserRouter>
   );
