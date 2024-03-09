@@ -13,6 +13,7 @@ import OptimalTable from "./OptimalTable";
 import OptimalChart from "./OptimalChart";
 import OptimalResult from "./OptimalResult";
 import SearchIcon from "@mui/icons-material/Search";
+import CalculateIcon from "@mui/icons-material/Calculate";
 
 function ftmToUSD(number) {
   return Math.ceil((number / 0.66) * 10000) / 10000;
@@ -277,7 +278,7 @@ function HighlightsOptimalStaking() {
                         "aria-labelledby": "input-slider",
                       }}
                       sx={{
-                        width: 100,
+                        width: 50,
                         svg: { color: "#fff" },
                         input: { color: "#fff" },
                         label: { color: "#fff" },
@@ -299,15 +300,15 @@ function HighlightsOptimalStaking() {
                 </Grid>
               </Box>
             </div>
-          </div>
-          <div className="row">
-            <button
-              className="btn btn-warning"
-              type="button"
-              onClick={compareMostReward}
-            >
-              <SearchIcon />
-            </button>
+            <div className="col mx-1 pt-3">
+              <button
+                className="btn btn-warning"
+                type="button"
+                onClick={compareMostReward}
+              >
+                <CalculateIcon />
+              </button>
+            </div>
           </div>
           <div className="row">
             <div className="col">

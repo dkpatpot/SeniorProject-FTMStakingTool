@@ -21,6 +21,7 @@ export default function OptimalChart(props) {
         series={[
           {
             data: restakeDay,
+            showMark: false,
           },
         ]}
         width={500}

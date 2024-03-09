@@ -96,11 +96,11 @@ function Row(props) {
 Row.propTypes = {
   row: PropTypes.shape({
     restakeNo: PropTypes.number.isRequired,
-    day: PropTypes.number.isRequired,
+    day: PropTypes.string.isRequired,
     restakeDetail: PropTypes.arrayOf(
       PropTypes.shape({
-        amountBoforeRestake: PropTypes.string.isRequired,
-        reward: PropTypes.string.isRequired,
+        amountBoforeRestake: PropTypes.number.isRequired,
+        reward: PropTypes.number.isRequired,
         amountAfterRestake: PropTypes.number.isRequired,
       })
     ).isRequired,
@@ -114,10 +114,12 @@ export default function OptimalTable(props) {
     if (day === 0) {
       rows = [];
     }
+    let date = new Date();
+    date.setDate(date.getDate() + props.bestRestakeDay[day]);
     rows.push(
       createData(
         day + 1,
-        props.bestRestakeDay[day],
+        date.toLocaleDateString(),
         props.restakeDetail[day][0],
         props.restakeDetail[day][1],
         props.restakeDetail[day][2]
