@@ -53,9 +53,6 @@ export default function Hero() {
           <Typography variant="body1" textAlign="center" color="text.secondary">
             Explore our staking tax calculator and optimal staking in Fantom block chain.<br />
             Elevate your experience with a Fantom staking tools.
-            {/* "FANTOM is a new DAG based Smart Contract platform that intends to solve the scalability issues of existing public distributed ledger technologies.<br />
-            The platform intends to distinguish itself from the traditional block ledger-based storage infrastructure by attempting to employ an improved version of existing DAG-based pro-tocols. The FANTOM platform adopts a new protocol known as the “Lachesis Protocol” to maintain consensus. This protocol is intended to be integrated into the Fantom OPERA Chain. The aim is to allow applications built on top of the FANTOM OPERA Chain to enjoy instant transactions and near zero transaction costs for all users.<br />
-            The mission of FANTOM is to provide compatibility between all transaction bodies around the world, and create an ecosystem which allows real-time transactions and data sharing with low cost."<br /> */}
           </Typography>
         </Stack>
     

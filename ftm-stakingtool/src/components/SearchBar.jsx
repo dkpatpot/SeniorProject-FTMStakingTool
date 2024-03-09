@@ -25,7 +25,6 @@ function SearchBar(props) {
           });
           props.callBackTransaction(filteredTransaction);
       }
-      console.log(response.data.response.result);
     } catch (error) {
       props.callBackTransaction([]);
       console.error("Error fetching transactions:", error);

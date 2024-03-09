@@ -16,7 +16,6 @@ export default function PricingHero(props) {
       const response = await axios.get("http://localhost:4000/getcurrentprice");
       setFtmprice(formatValue(response.data.market_data.current_price.usd));
       props.callBackMarketData(response);
-      console.log(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
