@@ -38,7 +38,7 @@ export default function OptimalStakingHero() {
               textAlign: "center",
             }}
           >
-            Fantom Staking&nbsp;
+            Fantom&nbsp;
             <Typography
               component="span"
               variant="h3"

@@ -38,7 +38,7 @@ export default function TaxCalculatorHero() {
               textAlign: 'center',
             }}
           >
-            Fantom Staking&nbsp;
+            Fantom&nbsp;
             <Typography
               component="span"
               variant="h3"
