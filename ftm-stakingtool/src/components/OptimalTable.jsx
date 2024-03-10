@@ -61,7 +61,7 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Restake Detail
+                Restake Detail (FTM)
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
@@ -137,8 +137,8 @@ export default function OptimalTable(props) {
                 width: 50,
               }}
             />
-            <TableCell sx={{ width: 150 }}>Restake No.</TableCell>
-            <TableCell sx={{ pr: 30 }} />
+            <TableCell sx={{ width: 200 }}>Restake No.</TableCell>
+            <TableCell sx={{ pr: 25 }} />
             <TableCell align="left">Date</TableCell>
           </TableRow>
         </TableHead>

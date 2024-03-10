@@ -3,6 +3,7 @@ import {
   Container,
   Grid,
   Input,
+  InputAdornment,
   Slider,
   TextField,
   Typography,
@@ -21,7 +22,7 @@ function ftmToUSD(number) {
 function compareDaily(initialStakeInput, stakingPeriodInput) {
   let initialStake = initialStakeInput * 0.66;
   let stakingPeriod = stakingPeriodInput;
-  let rewardPercentage = 0.0612 / stakingPeriod;
+  let rewardPercentage = 0.0612 / 365;
   let gasPrice = 0.0012;
 
   let allStake = initialStake;
@@ -75,7 +76,7 @@ function compareDaily(initialStakeInput, stakingPeriodInput) {
               switchAlgoCurrentReward = 0;
               restakeDay.push(j);
             }
-            if (i === 365 && switchAlgoCurrentReward != 0) {
+            if (j === stakingPeriod && switchAlgoCurrentReward != 0) {
               switchAlgoAllStake += switchAlgoCurrentReward;
               switchAlgoCurrentReward = 0;
             }
@@ -99,7 +100,7 @@ function compareDaily(initialStakeInput, stakingPeriodInput) {
               switchAlgoCurrentReward = 0;
               restakeDay.push(j);
             }
-            if (i === 365 && switchAlgoCurrentReward != 0) {
+            if (j === stakingPeriod && switchAlgoCurrentReward != 0) {
               switchAlgoAllStake += switchAlgoCurrentReward;
               switchAlgoCurrentReward = 0;
             }
@@ -233,6 +234,13 @@ function HighlightsOptimalStaking() {
                     },
                   },
                 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Typography sx={{ color: "#FFFFFF" }}>FTM</Typography>
+                    </InputAdornment>
+                  ),
+                }}
                 onChange={(event) => {
                   changeInitialAmount(event);
                 }}
@@ -318,6 +326,11 @@ function HighlightsOptimalStaking() {
             </div>
           </div>
           <div className="row">
+            <Typography component="h2" variant="h5">
+              Total Restake : {bestRestakeDay.length} times
+            </Typography>
+          </div>
+          <div className="row">
             <div className="col">
               <Box sx={{ width: "100%" }}>
                 <OptimalTable
@@ -338,6 +351,7 @@ function HighlightsOptimalStaking() {
                 <OptimalResult
                   mostReward={mostReward}
                   initialAmount={initialAmount}
+                  stakingPeriod={stakingPeriod}
                 />
               </div>
             </div>

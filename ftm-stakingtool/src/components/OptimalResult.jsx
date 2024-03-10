@@ -25,7 +25,9 @@ export default function OptimalResult(props) {
   }
 
   function getReturn() {
-    let returnNormal = toFourPoint(getInitialAmount() * 1.0612);
+    let returnNormal = toFourPoint(
+      getInitialAmount() * (1 + (0.0612 / 365) * props.stakingPeriod)
+    );
     let returnOptimal = 0;
     if (props.mostReward === 0) {
       returnNormal = 0;
@@ -37,9 +39,7 @@ export default function OptimalResult(props) {
   }
 
   function getYeild() {
-    let returnOptimalForYeild = getReturn()[1];
-
-    let yeildNormal = "6.12%";
+    let yeildNormal = toFourPoint((6.12 / 365) * props.stakingPeriod) + "%";
     let yeildOptimal = 0;
     if (props.mostReward === 0) {
       yeildNormal = 0;
@@ -64,8 +64,8 @@ export default function OptimalResult(props) {
       <Table sx={{ minWidth: 470 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ height: 60, fontWeight: "bold" }}>
-              Compare
+            <TableCell sx={{ height: 60, fontWeight: "bold", width: 140 }}>
+              Compare (FTM)
             </TableCell>
             <TableCell align="right" sx={{ fontWeight: "bold" }}>
               Normal Staking
