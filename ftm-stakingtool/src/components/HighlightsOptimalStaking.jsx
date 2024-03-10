@@ -60,7 +60,6 @@ function compareDaily(initialStakeInput, stakingPeriodInput) {
     }
     if (i === stakingPeriod) {
       if (allStake > tempAllStake + tempCurrentReward - gasPrice) {
-        console.log(restakeDay.length);
         if (restakeDay.length === 0) {
           for (let j = 1; j <= stakingPeriod; j++) {
             switchAlgoCurrentReward += switchAlgoAllStake * rewardPercentage;
@@ -115,7 +114,6 @@ function compareDaily(initialStakeInput, stakingPeriodInput) {
   }
   let allStakeFormat = Math.ceil((allStake / 0.66) * 10000) / 10000;
   return [allStakeFormat, restakeDay, restakeDetail];
-  // return [allStake / 0.66, restakeDay];
 }
 
 function HighlightsOptimalStaking() {
@@ -125,6 +123,9 @@ function HighlightsOptimalStaking() {
   let [mostReward, setMostReward] = useState(0);
   let [bestRestakeDay, setBestRestakeDay] = useState([]);
   let [restakeDetail, setRestakeDetail] = useState([]);
+  let [tempStakingPeriod,setTempStakingPeriod] = useState(0);
+  let [tempInitialAmount,setTempInitialAmount] = useState(0);
+  let [tempMostReward,setTempMostReward] = useState(0);
 
   function changeInitialAmount(event) {
     const newInitailValue = event.target.value;
@@ -154,8 +155,6 @@ function HighlightsOptimalStaking() {
   };
 
   const compareMostReward = () => {
-    console.log(initialAmount);
-    console.log(stakingPeriod);
     let [
       allStakeFormatCompareDaily,
       restakeDayCompareDaily,
@@ -165,9 +164,9 @@ function HighlightsOptimalStaking() {
     setBestRestakeDay(restakeDayCompareDaily);
     setRestakeDetail(restakeDetailCompareDaily);
 
-    console.log("most reward : ", mostReward);
-    console.log("best restake : ", bestRestakeDay);
-    console.log("restakeDetail : ", restakeDetail);
+    setTempInitialAmount(initialAmount);
+    setTempMostReward(allStakeFormatCompareDaily);
+    setTempStakingPeriod(stakingPeriod);
   };
 
   useEffect(() => {
@@ -349,9 +348,9 @@ function HighlightsOptimalStaking() {
               </div>
               <div className="row">
                 <OptimalResult
-                  mostReward={mostReward}
-                  initialAmount={initialAmount}
-                  stakingPeriod={stakingPeriod}
+                  mostReward={tempMostReward}
+                  initialAmount={tempInitialAmount}
+                  stakingPeriod={tempStakingPeriod}
                 />
               </div>
             </div>
