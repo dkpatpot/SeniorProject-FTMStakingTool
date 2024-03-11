@@ -1,5 +1,9 @@
 # SeniorProject-FTMStakingTool
-
+Overview:<br />
+Participants in the program will hone practical skills in developing crucial blockchain applications and processes. They will also gain hands-on experience collaborating with the Fantom Foundation and effectively communicating their projects’ vision to the wider community.<br />
+Project concept:<br />
+-Staking within the Fantom network can be compared to depositing money in an interest-bearing savings account. This interest compounds overtime.<br />
+-Develop a Tax Calculator for the Fantom network to address the challenges in calculating taxes for staking activities, especially Claim & Restake transactions that aren’t captured by traditional tax calculators.<br />
 # Require node.js version 20 or upper version. <br />
 
 How to install project:<br />
