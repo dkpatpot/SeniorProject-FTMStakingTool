@@ -39,13 +39,13 @@ export default function TaxTable(props) {
     createRow("Restake", props.totalRestake, props.totalRestakePrice),
   ];
 
-  const capitalSubtotal = capitalsubtotal(
+  const incomeSubtotal = capitalsubtotal(
     props.totalFtmStakePrice,
     props.totalTokenWithdrawPrice
   );
-  const capitalTaxes = (TAX_CAPITALGAIN_RATE/100) * capitalSubtotal;
-  const incomeSubtotal = props.totalRestakePrice;
   const incomeTaxes = (TAX_INCOMETAX_RATE/100) * incomeSubtotal;
+  const capitalSubtotal = props.totalRestakePrice+props.totalClaimRewardPrice;
+  const capitalTaxes = (TAX_CAPITALGAIN_RATE/100) * capitalSubtotal;
   const totalTaxes = capitalTaxes + incomeTaxes;
   return (
     <div>
